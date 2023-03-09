@@ -217,17 +217,95 @@ void *buildfromlevelorder(Node *&root)
         }
     }
 }
+void Insert(Node* &root,int x)
+{
+    
+    if(root==NULL)
+    {
+        
+        Node* k=new Node(x);
+        root=k;
+    }
+    else
+    {
+    if(x<root->data)
+    {
+        Insert(root->left,x);
+    }
+    if(x>root->data)
+    {
+        Insert(root->right,x);
+    }
+    }
+}
+Node* Max(Node* cur)  
+{  
+    while(cur->right != NULL) {  
+        cur = cur->right;  
+    }  
+    return cur;  
+}  
+
+void Delete(Node* &root,int x)
+{
+    
+    if(root==NULL)
+    {
+        
+        cout<<"not found";
+    }
+    else if(x<root->data)
+    {
+        Delete(root->left,x);
+    }
+    else  if(x>root->data)
+    {
+        Delete(root->right,x);
+    }
+    else if(root->left&&root->right)
+    {
+        Node* temp=Max(root->left);
+        root->data=temp->data;
+        Delete(root->left,temp->data);
+    }
+    else
+    {
+        Node* temp=root;
+        if(root->left==NULL&&root->right==NULL)
+        {
+            root=NULL;
+        }
+        else if(root->left!=NULL)
+        {
+            root=root->left;
+        }
+                else if(root->right!=NULL)
+        {
+            root=root->right;
+        }
+
+    }
+    }
+
+
 int main()
 {
     Node *root = NULL;
-    buildfromlevelorder(root);
+    // buildfromlevelorder(root);
+    Insert(root,4);
+    Insert(root,1);
+    Insert(root,10);
+    Insert(root,3);
+    Insert(root,5);
     cout << endl;
     cout << endl;
     levelordertraversal(root);
-    inorder(root);
-    cout << endl
-         << endl;
     preorder(root);
+    Delete(root,3);
+    cout<<endl;
+    levelordertraversal(root);
+    Preorder(root);
+
 
     return 0;
 }
